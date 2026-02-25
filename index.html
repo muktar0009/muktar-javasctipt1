@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muktar's JS Practices</title>
+  <link rel="stylesheet" href="assets/shared.css">
+  <link rel="icon" href="https://pdfa.org/wp-content/uploads/2023/11/VSCode-extension.jpg" type="image/x-icon">
+  <meta name="theme-color" content="#4ed0f0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ── Hero ─────────────────────────────────────────────────────── */
+    main .sub-main {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin-left: 14vw;
+      align-items: flex-start;
+      justify-content: center;
+      animation: fadeInUp 1s ease 0.3s forwards;
+      opacity: 0;
+      position: relative;
+    }
+    main .sub-main h4 { font-size: clamp(18px, 5vw, 24px); }
+    main .sub-main h4::after {
+      content: '';
+      animation: content-dot 3s linear infinite;
+    }
+    @keyframes content-dot {
+      from { opacity: 0; }
+      5% { opacity: 1; content: '.'; }
+      20% { content: '..'; }
+      30% { content: '...'; }
+      94% { content: '...'; }
+      95% { content: '..'; }
+      97% { content: '.'; }
+      to { content: ''; }
+    }
+    main .sub-main h1 {
+      font-size: clamp(32px, 10vw, 64px);
+      text-align: left;
+      display: inline;
+      font-style: normal;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .typing-text {
+      border-right: 4px solid var(--pure);
+      white-space: nowrap;
+      overflow: hidden;
+      display: block;
+      font-style: italic;
+      text-transform: none;
+      will-change: width;
+      font-family: 'Google Sans Code', monospace;
+    }
+    main .sub-main p {
+      margin-top: 1.3rem;
+      max-width: 60vw;
+      font-weight: 200;
+      font-size: clamp(12px, 3vw, 14px);
+    }
+    .hero-actions { margin-top: 1.8rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+    .down-arrow {
+      position: absolute;
+      bottom: 2rem;
+      right: 40vw;
+      opacity: 0.6;
+      max-height: 4rem;
+      transition: 2s linear;
+    }
+    .down-arrow:hover { opacity: 1; rotate: 360deg; }
+
+    /* ── News section ─────────────────────────────────────────────── */
+    #news { padding: 4rem 2rem; max-width: 1200px; margin: 0 auto; }
+    #news .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+    #news h2 { font-size: clamp(22px, 4vw, 34px); color: var(--primary-color); text-transform: uppercase; }
+    .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .news-card {
+      background: rgba(0, 66, 92, 0.4);
+      border: 1px solid rgba(78, 208, 240, 0.15);
+      border-radius: 8px;
+      padding: 1.5rem;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .news-card:hover { border-color: rgba(78, 208, 240, 0.5); transform: translateY(-4px); }
+    .news-card .category-badge {
+      display: inline-block;
+      background: rgba(78, 208, 240, 0.15);
+      color: var(--primary-color);
+      border: 1px solid rgba(78, 208, 240, 0.3);
+      border-radius: 20px;
+      padding: 2px 12px;
+      font-size: 12px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .news-card h3 { font-size: 18px; margin-bottom: 10px; color: var(--pure); line-height: 1.4; }
+    .news-card p { font-size: 13px; color: rgba(255,251,224,0.65); line-height: 1.6; }
+    .news-card .card-meta { display: flex; justify-content: space-between; margin-top: 1rem; font-size: 12px; color: rgba(78,208,240,0.6); }
+    .news-skeleton { background: rgba(0, 66, 92, 0.3); border-radius: 8px; height: 200px; animation: pulse 1.5s ease infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.8; } }
+
+    /* ── Subscribe section ────────────────────────────────────────── */
+    #subscribe { padding: 4rem 2rem; text-align: center; background: rgba(0, 66, 92, 0.2); }
+    #subscribe h2 { font-size: clamp(20px, 4vw, 32px); color: var(--primary-color); margin-bottom: 1rem; }
+    #subscribe p { color: rgba(255,251,224,0.7); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .subscribe-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; max-width: 500px; margin: 0 auto; }
+    .subscribe-form input {
+      flex: 1;
+      min-width: 200px;
+      padding: 10px 16px;
+      font-size: 15px;
+      background: rgba(0, 66, 92, 0.5);
+      border: 1px solid rgba(78, 208, 240, 0.3);
+      border-radius: 4px;
+      outline: none;
+      color: var(--pure);
+      font-family: Saira, sans-serif;
+    }
+    .subscribe-form input:focus { border-color: var(--primary-color); }
+    .subscribe-form input::placeholder { color: rgba(78, 208, 240, 0.4); }
+  </style>
+</head>
+<body>
+  <div id="top"></div>
+  <nav class="navbar">
+    <a href="index.html"><img src="https://pdfa.org/wp-content/uploads/2023/11/VSCode-extension.jpg" class="logo" alt="logo" title="home"></a>
+    <ul class="nav-menu">
+      <li><a href="index.html" id="nav-selected"><i class="fa-solid fa-house icone-currect"></i>&nbsp;Home</a></li>
+      <li><a href="pages/about.html"><i class="fa-solid fa-chart-column icone-currect"></i>&nbsp;About</a></li>
+      <li><a href="pages/contact.html"><i class="fa-solid fa-address-book icone-currect"></i>&nbsp;Contact</a></li>
+      <li>
+        <a href="#news"><i class="fa-solid fa-newspaper icone-currect"></i>
+          <select name="more" class="custom-select" id="news-filter">
+            <option value="">News</option>
+            <option value="JavaScript">JavaScript</option>
+            <option value="Tutorial">Tutorial</option>
+            <option value="Backend">Backend</option>
+            <option value="CSS">CSS</option>
+          </select>
+        </a>
+      </li>
+    </ul>
+    <a href="pages/login.html" class="loginbtn" id="lgbtn" title="Login">Login</a>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <main>
+    <div class="sub-main" id="home">
+      <h4>Welcome to</h4>
+      <h1>Muktar's JS <span class="typing-text" id="typing"></span></h1>
+      <p>JavaScript is the backbone of modern web development, transforming static pages into interactive experiences. It is the only language native to browsers, making it an essential skill for any front-end developer. Beyond the UI, the rise of Node.js allows developers to build scalable server-side applications. Learning it fosters a deep understanding of asynchronous programming and DOM manipulation.</p>
+      <div class="hero-actions">
+        <a href="#news" class="btn btn-primary"><i class="fa-solid fa-newspaper"></i> Latest Articles</a>
+        <a href="pages/about.html" class="btn btn-outline"><i class="fa-solid fa-user"></i> About Me</a>
+      </div>
+      <a href="#news"><img src="https://static.vecteezy.com/system/resources/thumbnails/048/729/493/small/down-arrow-icon-3d-rendering-illustration-free-vector.jpg" class="down-arrow" alt="Scroll down" draggable="false"></a>
+    </div>
+
+    <!-- ── News / Blog section ── -->
+    <section id="news">
+      <div class="section-header">
+        <h2><i class="fa-solid fa-newspaper"></i> Latest Articles</h2>
+        <a href="pages/news.html" class="btn btn-outline" style="font-size:14px;">View All →</a>
+      </div>
+      <div class="news-grid" id="newsGrid">
+        <!-- skeleton loaders -->
+        <div class="news-skeleton"></div>
+        <div class="news-skeleton"></div>
+        <div class="news-skeleton"></div>
+      </div>
+    </section>
+
+    <!-- ── Subscribe section ── -->
+    <section id="subscribe">
+      <h2>📬 Stay Updated</h2>
+      <p>Subscribe to get the latest JavaScript tips, tutorials, and articles straight to your inbox.</p>
+      <form class="subscribe-form" id="subscribeForm">
+        <input type="email" placeholder="your@email.com" id="subEmail" required>
+        <button type="submit" class="btn btn-primary" id="subBtn">Subscribe</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h3>Muktar JS Practices</h3>
+        <p>Creating digital experiences that matter. Focused on JavaScript, Node.js, and modern web development.</p>
+      </div>
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="pages/about.html">About Us</a></li>
+          <li><a href="pages/news.html">Articles</a></li>
+          <li><a href="pages/contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Follow Us</h3>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Muktar JavaScript Practices. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="assets/shared.js"></script>
+  <script>
+    // Fix login btn path for root
+    document.addEventListener("DOMContentLoaded", () => {
+      const lgbtn = document.getElementById("lgbtn");
+      if (lgbtn && !Auth.isLoggedIn()) lgbtn.href = "pages/login.html";
+      else if (lgbtn && Auth.isLoggedIn()) {
+        lgbtn.textContent = Auth.getUser()?.username || "Profile";
+        lgbtn.href = "pages/profile.html";
+      }
+    });
+
+    // ── Typing animation ─────────────────────────────────────────────────────
+    const phrases = ["Playground", "Tutorials", "Examples", "Journey", "Workshop"];
+    let pIdx = 0, cIdx = 0, deleting = false;
+    const typingEl = document.getElementById("typing");
+
+    function type() {
+      const current = phrases[pIdx];
+      typingEl.textContent = deleting ? current.slice(0, cIdx--) : current.slice(0, cIdx++);
+      if (!deleting && cIdx > current.length) { deleting = true; setTimeout(type, 1200); return; }
+      if (deleting && cIdx < 0) { deleting = false; pIdx = (pIdx + 1) % phrases.length; cIdx = 0; }
+      setTimeout(type, deleting ? 60 : 100);
+    }
+    type();
+
+    // ── Load news from API ───────────────────────────────────────────────────
+    async function loadNews(category = "") {
+      const grid = document.getElementById("newsGrid");
+      try {
+        const url = "/api/news?limit=3" + (category ? `&category=${category}` : "");
+        const data = await fetch(url).then(r => r.json());
+
+        if (!data.posts?.length) {
+          grid.innerHTML = '<p style="color:rgba(255,251,224,0.5);grid-column:1/-1;text-align:center;padding:2rem;">No articles yet. Check back soon!</p>';
+          return;
+        }
+
+        grid.innerHTML = data.posts.map(p => `
+          <div class="news-card" onclick="window.location.href='pages/news.html?slug=${p.slug}'">
+            <span class="category-badge">${p.category || 'General'}</span>
+            <h3>${p.title}</h3>
+            <p>${p.summary || ''}</p>
+            <div class="card-meta">
+              <span><i class="fa-regular fa-user"></i> ${p.author || 'Muktar'}</span>
+              <span><i class="fa-regular fa-eye"></i> ${p.views || 0} views</span>
+            </div>
+          </div>
+        `).join("");
+      } catch (e) {
+        grid.innerHTML = '<p style="color:rgba(255,251,224,0.5);grid-column:1/-1;text-align:center;padding:2rem;">Could not load articles. Start the backend server.</p>';
+      }
+    }
+    loadNews();
+
+    document.getElementById("news-filter").addEventListener("change", e => loadNews(e.target.value));
+
+    // ── Subscribe form ───────────────────────────────────────────────────────
+    document.getElementById("subscribeForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("subEmail").value;
+      const btn = document.getElementById("subBtn");
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>';
+      try {
+        const data = await apiFetch("/contact/subscribe", { method: "POST", body: { email } });
+        showToast(data.message, "success");
+        document.getElementById("subEmail").value = "";
+      } catch (err) {
+        showToast(err.message, "error");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = "Subscribe";
+      }
+    });
+  </script>
+</body>
+</html>

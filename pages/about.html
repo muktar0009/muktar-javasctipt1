@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About – Muktar JS</title>
+  <link rel="stylesheet" href="../assets/shared.css">
+  <link rel="icon" href="https://pdfa.org/wp-content/uploads/2023/11/VSCode-extension.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .about-hero {
+      padding: 8rem 2rem 3rem;
+      max-width: 900px;
+      margin: 0 auto;
+      animation: fadeInUp 0.8s ease forwards;
+      opacity: 0;
+    }
+    .about-hero h1 { font-size: clamp(28px, 7vw, 56px); color: var(--primary-color); text-transform: uppercase; margin-bottom: 0.5rem; }
+    .about-hero .tagline { color: rgba(255,251,224,0.6); font-size: 16px; margin-bottom: 2.5rem; font-style: italic; }
+
+    .about-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; max-width: 900px; margin: 0 auto; padding: 0 2rem 3rem; }
+    @media (max-width: 640px) { .about-grid { grid-template-columns: 1fr; } }
+
+    .about-avatar {
+      text-align: center;
+    }
+    .avatar-circle {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--dark-ternary), var(--primary-color));
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      border: 3px solid rgba(78, 208, 240, 0.4);
+    }
+    .about-avatar h2 { color: var(--primary-color); font-size: 22px; }
+    .about-avatar p { color: rgba(255,251,224,0.5); font-size: 14px; }
+    .about-avatar .social-links { margin-top: 1rem; }
+
+    .about-content h2 { color: var(--primary-color); font-size: 22px; margin-bottom: 1rem; text-transform: uppercase; }
+    .about-content p { color: rgba(255,251,224,0.8); line-height: 1.8; margin-bottom: 1rem; font-size: 15px; }
+
+    /* Skills */
+    .skills-section { max-width: 900px; margin: 0 auto; padding: 0 2rem 4rem; }
+    .skills-section h2 { font-size: 26px; color: var(--primary-color); text-transform: uppercase; margin-bottom: 2rem; }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.2rem; }
+    .skill-card {
+      background: rgba(0, 66, 92, 0.4);
+      border: 1px solid rgba(78, 208, 240, 0.15);
+      border-radius: 8px;
+      padding: 1.2rem;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-card:hover { border-color: var(--primary-color); transform: translateY(-3px); }
+    .skill-card .skill-icon { font-size: 32px; margin-bottom: 10px; }
+    .skill-card h4 { font-size: 16px; margin-bottom: 8px; }
+    .skill-bar { height: 5px; background: rgba(78, 208, 240, 0.15); border-radius: 3px; overflow: hidden; }
+    .skill-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--dark-ternary), var(--primary-color));
+      border-radius: 3px;
+      width: 0;
+      transition: width 1.2s ease;
+    }
+    .skill-pct { font-size: 12px; color: var(--primary-color); margin-top: 5px; }
+
+    /* Journey / timeline */
+    .timeline-section { max-width: 900px; margin: 0 auto; padding: 0 2rem 4rem; }
+    .timeline-section h2 { font-size: 26px; color: var(--primary-color); text-transform: uppercase; margin-bottom: 2rem; }
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: rgba(78, 208, 240, 0.2); }
+    .timeline-item { position: relative; margin-bottom: 2rem; padding-left: 1.5rem; }
+    .timeline-item::before { content: ''; position: absolute; left: -30px; top: 5px; width: 14px; height: 14px; border-radius: 50%; background: var(--primary-color); border: 3px solid var(--bg-dark); }
+    .timeline-item .year { font-size: 12px; color: var(--primary-color); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
+    .timeline-item h4 { font-size: 17px; margin-bottom: 6px; }
+    .timeline-item p { font-size: 14px; color: rgba(255,251,224,0.6); }
+
+    /* Stats */
+    .stats-row { display: flex; gap: 1.5rem; flex-wrap: wrap; max-width: 900px; margin: 0 auto 4rem; padding: 0 2rem; }
+    .stat-box { flex: 1; min-width: 140px; background: rgba(0, 66, 92, 0.4); border: 1px solid rgba(78, 208, 240, 0.15); border-radius: 8px; padding: 1.5rem; text-align: center; }
+    .stat-box .stat-num { font-size: 36px; font-weight: 700; color: var(--primary-color); display: block; }
+    .stat-box .stat-label { font-size: 13px; color: rgba(255,251,224,0.6); }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="../index.html"><img src="https://pdfa.org/wp-content/uploads/2023/11/VSCode-extension.jpg" class="logo" alt="logo"></a>
+    <ul class="nav-menu">
+      <li><a href="../index.html"><i class="fa-solid fa-house icone-currect"></i>&nbsp;Home</a></li>
+      <li><a href="about.html" id="nav-selected"><i class="fa-solid fa-chart-column icone-currect"></i>&nbsp;About</a></li>
+      <li><a href="contact.html"><i class="fa-solid fa-address-book icone-currect"></i>&nbsp;Contact</a></li>
+      <li><a href="news.html"><i class="fa-solid fa-newspaper icone-currect"></i>&nbsp;Articles</a></li>
+    </ul>
+    <a href="login.html" class="loginbtn" id="lgbtn">Login</a>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <div class="about-hero">
+    <h1>About Me</h1>
+    <p class="tagline">A passionate JavaScript developer on an endless learning journey 🚀</p>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-avatar">
+      <div class="avatar-circle">👨‍💻</div>
+      <h2>Muktar Hosen</h2>
+      <p>JavaScript Developer</p>
+      <p style="margin-top:4px;font-size:13px;">Bangladesh 🇧🇩</p>
+      <div class="social-links" style="margin-top:1rem;">
+        <a href="#"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+      <a href="contact.html" class="btn btn-outline" style="margin-top:1.2rem;font-size:14px;">Contact Me</a>
+    </div>
+
+    <div class="about-content">
+      <h2>Who I Am</h2>
+      <p>Hi! I'm Muktar Hosen, a passionate web developer and JavaScript enthusiast from Bangladesh. I created this platform to document my learning journey and share everything I discover about modern web development.</p>
+      <p>I believe in learning by doing — every snippet, every project, and every mistake is a step forward. This website serves as my digital notebook, practice ground, and eventually a resource for other learners.</p>
+      <p>My focus areas include vanilla JavaScript, Node.js backend development, REST APIs, database integration, and building full-stack web applications from scratch.</p>
+      <div style="margin-top:1.5rem;">
+        <a href="contact.html" class="btn btn-primary"><i class="fa-solid fa-envelope"></i> Get In Touch</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row" id="statsRow">
+    <div class="stat-box">
+      <span class="stat-num" id="statUsers">—</span>
+      <span class="stat-label">Registered Users</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num" id="statArticles">—</span>
+      <span class="stat-label">Articles Published</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num">2+</span>
+      <span class="stat-label">Years Learning</span>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num">∞</span>
+      <span class="stat-label">Lines of Code</span>
+    </div>
+  </div>
+
+  <!-- Skills -->
+  <div class="skills-section">
+    <h2><i class="fa-solid fa-code"></i> Skills & Technologies</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">🟨</div>
+        <h4>JavaScript</h4>
+        <div class="skill-bar"><div class="skill-fill" data-pct="85"></div></div>
+        <div class="skill-pct">85%</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🌐</div>
+        <h4>HTML & CSS</h4>
+        <div class="skill-bar"><div class="skill-fill" data-pct="90"></div></div>
+        <div class="skill-pct">90%</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🟢</div>
+        <h4>Node.js</h4>
+        <div class="skill-bar"><div class="skill-fill" data-pct="70"></div></div>
+        <div class="skill-pct">70%</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">⚡</div>
+        <h4>Express.js</h4>
+        <div class="skill-bar"><div class="skill-fill" data-pct="72"></div></div>
+        <div class="skill-pct">72%</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🗄️</div>
+        <h4>SQLite / SQL</h4>
+        <div class="skill-bar"><div class="skill-fill" data-pct="65"></div></div>
+        <div class="skill-pct">65%</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🔷</div>
+        <h4>REST APIs</h4>
+        <div class="skill-bar"><div class="skill-fill" data-pct="75"></div></div>
+        <div class="skill-pct">75%</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🐙</div>
+        <h4>Git & GitHub</h4>
+        <div class="skill-bar"><div class="skill-fill" data-pct="78"></div></div>
+        <div class="skill-pct">78%</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">📱</div>
+        <h4>Responsive Design</h4>
+        <div class="skill-bar"><div class="skill-fill" data-pct="88"></div></div>
+        <div class="skill-pct">88%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="timeline-section">
+    <h2><i class="fa-solid fa-timeline"></i> My Journey</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="year">2023</div>
+        <h4>Started Web Development</h4>
+        <p>Discovered HTML and CSS. Built my first static webpage. Got hooked on making things look good in a browser.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">2024</div>
+        <h4>Dove into JavaScript</h4>
+        <p>Started learning JavaScript fundamentals — variables, functions, DOM manipulation, and event handling. Built interactive mini-projects.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">Early 2025</div>
+        <h4>Backend Development</h4>
+        <p>Discovered Node.js and Express. Learned about REST APIs, databases, authentication, and server-side programming.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">2025 – Present</div>
+        <h4>Full-Stack Projects</h4>
+        <p>Building complete full-stack applications combining everything learned. This website is a live demonstration of those skills.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h3>Muktar JS Practices</h3>
+        <p>Creating digital experiences that matter. Focused on JavaScript and modern web development.</p>
+      </div>
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="news.html">Articles</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Follow Us</h3>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Muktar JavaScript Practices. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/shared.js"></script>
+  <script>
+    // Animate skill bars on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll(".skill-fill").forEach(bar => {
+            bar.style.width = bar.dataset.pct + "%";
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    document.querySelector(".skills-section") && observer.observe(document.querySelector(".skills-section"));
+
+    // Load stats from API
+    async function loadStats() {
+      try {
+        const [newsData] = await Promise.all([
+          fetch("/api/news?limit=1").then(r => r.json())
+        ]);
+        document.getElementById("statArticles").textContent = newsData.total || "4";
+      } catch (e) {
+        document.getElementById("statArticles").textContent = "4";
+      }
+      document.getElementById("statUsers").textContent = "∞";
+    }
+    loadStats();
+  </script>
+</body>
+</html>

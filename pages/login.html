@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login – Muktar JS</title>
+  <link rel="stylesheet" href="../assets/shared.css">
+  <link rel="icon" href="https://pdfa.org/wp-content/uploads/2023/11/VSCode-extension.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { min-height: 100vh; display: flex; flex-direction: column; }
+
+    .auth-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7rem 1rem 3rem;
+      animation: fadeInUp 0.7s ease forwards;
+      opacity: 0;
+    }
+
+    .auth-box {
+      background: rgba(0, 66, 92, 0.5);
+      border: 1px solid rgba(78, 208, 240, 0.2);
+      border-radius: 12px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 440px;
+      backdrop-filter: blur(16px);
+    }
+
+    .auth-logo {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .auth-logo img { width: 54px; border-radius: 8px; }
+    .auth-logo h1 { font-size: 22px; color: var(--primary-color); margin-top: 10px; }
+    .auth-logo p { font-size: 13px; color: rgba(255,251,224,0.5); }
+
+    /* Tabs */
+    .auth-tabs { display: flex; border-bottom: 1px solid rgba(78, 208, 240, 0.2); margin-bottom: 2rem; }
+    .auth-tab {
+      flex: 1;
+      background: none;
+      border: none;
+      padding: 0.75rem;
+      font-size: 16px;
+      font-weight: 600;
+      color: rgba(255,251,224,0.5);
+      cursor: pointer;
+      transition: color 0.2s;
+      border-bottom: 3px solid transparent;
+      font-family: Saira, sans-serif;
+      margin-bottom: -1px;
+    }
+    .auth-tab.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+
+    .auth-form { display: none; }
+    .auth-form.active { display: block; }
+
+    .password-wrapper { position: relative; }
+    .password-wrapper input { padding-right: 44px; }
+    .toggle-pw {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .auth-submit { width: 100%; margin-top: 0.5rem; }
+
+    .auth-extra { text-align: center; margin-top: 1.2rem; font-size: 14px; color: rgba(255,251,224,0.5); }
+    .auth-extra a { color: var(--primary-color); text-decoration: none; }
+    .auth-extra a:hover { text-decoration: underline; }
+
+    .divider { text-align: center; margin: 1.5rem 0; position: relative; color: rgba(255,251,224,0.3); font-size: 13px; }
+    .divider::before, .divider::after { content: ''; position: absolute; top: 50%; width: 38%; height: 1px; background: rgba(78,208,240,0.15); }
+    .divider::before { left: 0; }
+    .divider::after { right: 0; }
+
+    .social-auth { display: flex; gap: 10px; }
+    .social-btn {
+      flex: 1;
+      padding: 0.55rem;
+      background: rgba(0, 66, 92, 0.4);
+      border: 1px solid rgba(78, 208, 240, 0.2);
+      border-radius: 4px;
+      color: var(--pure);
+      font-size: 14px;
+      cursor: pointer;
+      font-family: Saira, sans-serif;
+      transition: border-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .social-btn:hover { border-color: var(--primary-color); }
+
+    .strength-bar { height: 4px; border-radius: 2px; margin-top: 6px; background: rgba(78,208,240,0.1); overflow: hidden; }
+    .strength-fill { height: 100%; border-radius: 2px; transition: width 0.3s, background 0.3s; width: 0; }
+    .strength-label { font-size: 11px; margin-top: 3px; color: rgba(255,251,224,0.4); }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="../index.html"><img src="https://pdfa.org/wp-content/uploads/2023/11/VSCode-extension.jpg" class="logo" alt="logo"></a>
+    <ul class="nav-menu">
+      <li><a href="../index.html"><i class="fa-solid fa-house icone-currect"></i>&nbsp;Home</a></li>
+      <li><a href="about.html"><i class="fa-solid fa-chart-column icone-currect"></i>&nbsp;About</a></li>
+      <li><a href="contact.html"><i class="fa-solid fa-address-book icone-currect"></i>&nbsp;Contact</a></li>
+    </ul>
+    <a href="login.html" class="loginbtn" id="lgbtn">Login</a>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <div class="auth-container">
+    <div class="auth-box">
+      <div class="auth-logo">
+        <img src="https://pdfa.org/wp-content/uploads/2023/11/VSCode-extension.jpg" alt="logo">
+        <h1>Muktar JS</h1>
+        <p>Welcome back! Sign in to continue.</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin">Login</button>
+        <button class="auth-tab" id="tabRegister">Register</button>
+      </div>
+
+      <!-- Login Form -->
+      <form class="auth-form active" id="loginForm">
+        <div class="form-group">
+          <label><i class="fa-regular fa-user"></i> Username or Email</label>
+          <input type="text" id="loginUser" placeholder="Enter username or email" autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-lock"></i> Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="current-password">
+            <button type="button" class="toggle-pw" onclick="togglePw('loginPass', this)"><i class="fa-regular fa-eye"></i></button>
+          </div>
+        </div>
+        <p style="text-align:right;margin-bottom:1rem;"><a href="forgot-password.html" style="color:var(--primary-color);font-size:13px;text-decoration:none;">Forgot password?</a></p>
+        <button type="submit" class="btn btn-primary auth-submit" id="loginBtn">
+          <i class="fa-solid fa-right-to-bracket"></i> Login
+        </button>
+        <div class="divider">or continue with</div>
+        <div class="social-auth">
+          <button type="button" class="social-btn" onclick="showToast('Social login coming soon!','info')"><i class="fab fa-google"></i> Google</button>
+          <button type="button" class="social-btn" onclick="showToast('Social login coming soon!','info')"><i class="fab fa-github"></i> GitHub</button>
+        </div>
+      </form>
+
+      <!-- Register Form -->
+      <form class="auth-form" id="registerForm">
+        <div class="form-group">
+          <label><i class="fa-regular fa-id-card"></i> Full Name</label>
+          <input type="text" id="regName" placeholder="Your full name">
+        </div>
+        <div class="form-group">
+          <label><i class="fa-regular fa-user"></i> Username</label>
+          <input type="text" id="regUser" placeholder="Choose a username">
+        </div>
+        <div class="form-group">
+          <label><i class="fa-regular fa-envelope"></i> Email</label>
+          <input type="email" id="regEmail" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-lock"></i> Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="regPass" placeholder="Min. 6 characters" oninput="checkStrength(this.value)" autocomplete="new-password">
+            <button type="button" class="toggle-pw" onclick="togglePw('regPass', this)"><i class="fa-regular fa-eye"></i></button>
+          </div>
+          <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+          <div class="strength-label" id="strengthLabel">Password strength</div>
+        </div>
+        <button type="submit" class="btn btn-primary auth-submit" id="registerBtn">
+          <i class="fa-solid fa-user-plus"></i> Create Account
+        </button>
+      </form>
+
+      <div class="auth-extra" id="authExtra">
+        Don't have an account? <a href="#" id="switchLink">Register</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/shared.js"></script>
+  <script>
+    // Redirect if already logged in
+    if (Auth.isLoggedIn()) window.location.href = "profile.html";
+
+    // ── Tabs ─────────────────────────────────────────────────────────────────
+    const tabLogin = document.getElementById("tabLogin");
+    const tabRegister = document.getElementById("tabRegister");
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+    const authExtra = document.getElementById("authExtra");
+    const switchLink = document.getElementById("switchLink");
+
+    function setTab(tab) {
+      if (tab === "login") {
+        tabLogin.classList.add("active"); tabRegister.classList.remove("active");
+        loginForm.classList.add("active"); registerForm.classList.remove("active");
+        authExtra.innerHTML = 'Don\'t have an account? <a href="#" id="switchLink">Register</a>';
+        document.getElementById("switchLink").onclick = (e) => { e.preventDefault(); setTab("register"); };
+      } else {
+        tabRegister.classList.add("active"); tabLogin.classList.remove("active");
+        registerForm.classList.add("active"); loginForm.classList.remove("active");
+        authExtra.innerHTML = 'Already have an account? <a href="#" id="switchLink">Login</a>';
+        document.getElementById("switchLink").onclick = (e) => { e.preventDefault(); setTab("login"); };
+      }
+    }
+    tabLogin.onclick = () => setTab("login");
+    tabRegister.onclick = () => setTab("register");
+    switchLink.onclick = (e) => { e.preventDefault(); setTab("register"); };
+
+    // ── Toggle password visibility ────────────────────────────────────────────
+    function togglePw(id, btn) {
+      const input = document.getElementById(id);
+      const isHidden = input.type === "password";
+      input.type = isHidden ? "text" : "password";
+      btn.innerHTML = isHidden ? '<i class="fa-regular fa-eye-slash"></i>' : '<i class="fa-regular fa-eye"></i>';
+    }
+
+    // ── Password strength ─────────────────────────────────────────────────────
+    function checkStrength(pw) {
+      const fill = document.getElementById("strengthFill");
+      const label = document.getElementById("strengthLabel");
+      let score = 0;
+      if (pw.length >= 6) score++;
+      if (pw.length >= 10) score++;
+      if (/[A-Z]/.test(pw)) score++;
+      if (/[0-9]/.test(pw)) score++;
+      if (/[^A-Za-z0-9]/.test(pw)) score++;
+
+      const levels = [
+        { width: "20%", color: "#ff4d6d", text: "Very Weak" },
+        { width: "40%", color: "#ff884d", text: "Weak" },
+        { width: "60%", color: "#f0c04e", text: "Fair" },
+        { width: "80%", color: "#4ecc91", text: "Good" },
+        { width: "100%", color: "#52e58d", text: "Strong" }
+      ];
+      const lvl = levels[Math.min(score - 1, 4)] || { width: "0", color: "transparent", text: "Password strength" };
+      fill.style.width = lvl.width;
+      fill.style.background = lvl.color;
+      label.textContent = lvl.text;
+      label.style.color = lvl.color;
+    }
+
+    // ── Login ─────────────────────────────────────────────────────────────────
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("loginUser").value.trim();
+      const password = document.getElementById("loginPass").value;
+      if (!username || !password) return showToast("Please fill in all fields.", "error");
+
+      const btn = document.getElementById("loginBtn");
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Logging in...';
+      try {
+        const data = await apiFetch("/auth/login", { method: "POST", body: { username, password } });
+        Auth.setSession(data.token, data.user);
+        showToast(data.message, "success");
+        setTimeout(() => window.location.href = "profile.html", 900);
+      } catch (err) {
+        showToast(err.message, "error");
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Login';
+      }
+    });
+
+    // ── Register ──────────────────────────────────────────────────────────────
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const full_name = document.getElementById("regName").value.trim();
+      const username = document.getElementById("regUser").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
+      const password = document.getElementById("regPass").value;
+
+      if (!username || !email || !password) return showToast("Username, email, and password are required.", "error");
+
+      const btn = document.getElementById("registerBtn");
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Creating account...';
+      try {
+        const data = await apiFetch("/auth/register", { method: "POST", body: { username, email, password, full_name } });
+        Auth.setSession(data.token, data.user);
+        showToast(data.message, "success");
+        setTimeout(() => window.location.href = "profile.html", 900);
+      } catch (err) {
+        showToast(err.message, "error");
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Create Account';
+      }
+    });
+  </script>
+</body>
+</html>
